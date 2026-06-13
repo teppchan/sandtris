@@ -8,6 +8,7 @@ https://teppchan.github.io/sandtris/
 ## Prototype
 
 ブラウザで `index.html` を開くとプレイできます。ビルド不要の1ファイルHTMLプロトタイプです。
+Supabaseの `scores` テーブルを使って共有ランキングを表示・投稿します。
 
 ### Controls
 
