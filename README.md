@@ -1,9 +1,13 @@
 # sandtris
 練習でcodexに作らせてるゲーム
 
+## Play
+
+https://teppchan.github.io/sandtris/
+
 ## Prototype
 
-ブラウザで `sandtris.html` を開くとプレイできます。ビルド不要の1ファイルHTMLプロトタイプです。
+ブラウザで `index.html` を開くとプレイできます。ビルド不要の1ファイルHTMLプロトタイプです。
 
 ### Controls
 
