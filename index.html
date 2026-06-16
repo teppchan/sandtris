@@ -101,90 +101,6 @@
       font-size: 22px;
     }
 
-    .score-card {
-      display: grid;
-      gap: 8px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.035);
-    }
-
-    .score-card h2 {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.2;
-    }
-
-    .best-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .best-row strong {
-      color: var(--accent);
-      font-size: 18px;
-    }
-
-    .leaderboard {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 4px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .leaderboard li {
-      display: grid;
-      grid-template-columns: 22px 1fr auto;
-      gap: 6px;
-      align-items: baseline;
-      min-width: 0;
-    }
-
-    .leaderboard .name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--text);
-    }
-
-    .leaderboard .score {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .score-form {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 6px;
-    }
-
-    .score-form input {
-      min-width: 0;
-      height: 38px;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.22);
-      color: var(--text);
-      font: inherit;
-      padding: 0 10px;
-    }
-
-    .score-note {
-      min-height: 18px;
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
     .next-preview {
       display: block;
       width: 76px;
@@ -202,7 +118,7 @@
 
     .buttons {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
     }
 
@@ -237,6 +153,74 @@
       background: rgba(0, 0, 0, 0.18);
       font-size: 13px;
       line-height: 1.35;
+    }
+
+    dialog {
+      width: min(92vw, 400px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #211e19;
+      color: var(--text);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.62);
+    }
+
+    .ranking-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .ranking-panel h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .ranking-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .ranking-list li {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) 72px 44px;
+      gap: 8px;
+      align-items: baseline;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .ranking-rank,
+    .ranking-name,
+    .ranking-date,
+    .ranking-empty {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .ranking-list li.ranking-empty {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .ranking-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+    }
+
+    .ranking-score {
+      font-weight: 800;
+      font-size: 18px;
     }
 
     @media (max-width: 760px) {
@@ -292,19 +276,6 @@
         width: 44px;
         height: 32px;
         margin-top: 2px;
-      }
-
-      .score-card {
-        gap: 6px;
-        padding: 8px;
-      }
-
-      .leaderboard {
-        font-size: 12px;
-      }
-
-      .score-form input {
-        height: 44px;
       }
 
       .help {
@@ -370,23 +341,20 @@
       </div>
       <div class="buttons">
         <button id="restart">Restart</button>
+        <button id="ranking">Ranking</button>
         <button id="pause">Pause</button>
       </div>
-      <section class="score-card" aria-labelledby="ranking-title">
-        <h2 id="ranking-title">Ranking</h2>
-        <div class="best-row"><span>Your Best</span><strong id="best-score">0</strong></div>
-        <ol class="leaderboard" id="leaderboard">
-          <li>Loading ranking...</li>
-        </ol>
-        <form class="score-form" id="score-form">
-          <input id="player-name" name="player_name" maxlength="24" autocomplete="nickname" placeholder="Name" aria-label="player name">
-          <button id="submit-score" type="submit" disabled>Send</button>
-        </form>
-        <p class="score-note" id="score-note">Game Over後にスコアを送信できます。</p>
-      </section>
       <div class="status" id="status">ブロックを置くと砂に崩れ、同じ色が左右につながると消えます。</div>
     </aside>
   </main>
+
+  <dialog id="ranking-dialog" aria-labelledby="ranking-title">
+    <div class="ranking-panel">
+      <h2 id="ranking-title">High Scores Top 10</h2>
+      <ol class="ranking-list" id="ranking-list"></ol>
+      <button id="ranking-close">Back</button>
+    </div>
+  </dialog>
 
   <script>
     const canvas = document.getElementById("game");
@@ -397,12 +365,8 @@
     const chainEl = document.getElementById("chain");
     const levelEl = document.getElementById("level");
     const statusEl = document.getElementById("status");
-    const bestScoreEl = document.getElementById("best-score");
-    const leaderboardEl = document.getElementById("leaderboard");
-    const scoreForm = document.getElementById("score-form");
-    const playerNameInput = document.getElementById("player-name");
-    const submitScoreButton = document.getElementById("submit-score");
-    const scoreNoteEl = document.getElementById("score-note");
+    const rankingDialog = document.getElementById("ranking-dialog");
+    const rankingListEl = document.getElementById("ranking-list");
 
     const W = 120;
     const H = 240;
@@ -416,8 +380,7 @@
     const SUPABASE_URL = "https://grwrjhmuisnebdijsmhw.supabase.co";
     const SUPABASE_KEY = "sb_publishable_EN5LpRlN2ZjLgTlpdg8TqA_WIdoqpTY";
     const SCORE_TABLE = "scores";
-    const BEST_SCORE_KEY = "sandtris.bestScore";
-    const PLAYER_NAME_KEY = "sandtris.playerName";
+    const DEFAULT_PLAYER_NAME = "PLAYER";
 
     const COLORS = {
       I: "#1687ff",
@@ -457,9 +420,8 @@
     let demoAge;
     let demoTargetX;
     let demoRotateTimer;
-    let bestScore = Number(storageGet(BEST_SCORE_KEY) || 0);
-    let finalScore = 0;
-    let scoreSubmitted = false;
+    let scoreSaved;
+    let rankingRequestId = 0;
 
     function makeGrid() {
       return Array.from({ length: H }, () => Array(W).fill(null));
@@ -478,17 +440,15 @@
       dropTimer = 0;
       paused = false;
       over = false;
-      finalScore = 0;
-      scoreSubmitted = false;
       clearFlash = null;
       demoTimer = 0;
       demoAge = 0;
       demoTargetX = 3;
       demoRotateTimer = 0;
+      scoreSaved = false;
       nextType = randType();
       spawnPiece();
       updateHud();
-      updateScoreSubmitState();
     }
 
     function showTitle() {
@@ -522,10 +482,145 @@
           reset();
         } else {
           over = true;
-          handleGameOver();
+          saveHighScore(score);
+          setStatus("Game Over。スコアをランキングDBへ保存しています。Restartで再挑戦できます。");
         }
       }
       demoTargetX = Math.floor(Math.random() * 7);
+    }
+
+    function scoreEndpoint(query = "") {
+      return `${SUPABASE_URL}/rest/v1/${SCORE_TABLE}${query}`;
+    }
+
+    function supabaseHeaders(extra = {}) {
+      return {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        ...extra
+      };
+    }
+
+    async function fetchHighScores() {
+      const query = "?select=player_name,score,level,created_at&order=score.desc,created_at.asc&limit=10";
+      const response = await fetch(scoreEndpoint(query), {
+        headers: supabaseHeaders()
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const rows = await response.json();
+      if (!Array.isArray(rows)) return [];
+      return rows
+        .map((entry) => ({
+          name: normalizePlayerName(entry.player_name),
+          score: Number(entry.score) || 0,
+          level: Number(entry.level) || 1,
+          date: typeof entry.created_at === "string" ? entry.created_at : ""
+        }))
+        .filter((entry) => entry.score > 0)
+        .slice(0, 10);
+    }
+
+    async function postHighScore(finalScore, finalLevel) {
+      const response = await fetch(scoreEndpoint(), {
+        method: "POST",
+        headers: supabaseHeaders({
+          "Content-Type": "application/json",
+          Prefer: "return=minimal"
+        }),
+        body: JSON.stringify({
+          player_name: DEFAULT_PLAYER_NAME,
+          score: Math.max(0, Math.floor(finalScore)),
+          level: Math.max(1, Math.floor(finalLevel))
+        })
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    }
+
+    function normalizePlayerName(value) {
+      return (value || DEFAULT_PLAYER_NAME).trim().slice(0, 24) || DEFAULT_PLAYER_NAME;
+    }
+
+    function renderRankingMessage(text) {
+      rankingListEl.innerHTML = "";
+      const item = document.createElement("li");
+      item.className = "ranking-empty";
+      item.textContent = text;
+      rankingListEl.appendChild(item);
+    }
+
+    async function saveHighScore(finalScore) {
+      if (scoreSaved || finalScore <= 0) return;
+      scoreSaved = true;
+      try {
+        await postHighScore(finalScore, level);
+        setStatus("Game Over。スコアをランキングDBへ保存しました。Restartで再挑戦できます。");
+        if (rankingDialog.open) renderRanking();
+      } catch (error) {
+        console.warn("High score save failed", error);
+        scoreSaved = false;
+        setStatus("スコア保存に失敗しました。Supabase設定や通信状態を確認してください。");
+      }
+    }
+
+    function formatScoreDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString("ja-JP", { month: "2-digit", day: "2-digit" });
+    }
+
+    async function renderRanking() {
+      const requestId = ++rankingRequestId;
+      renderRankingMessage("ランキングを読み込み中...");
+      let scores;
+      try {
+        scores = await fetchHighScores();
+      } catch (error) {
+        console.warn("High score load failed", error);
+        if (requestId === rankingRequestId) {
+          renderRankingMessage("ランキングを読み込めませんでした。");
+          setStatus("Supabaseからランキングを読み込めませんでした。");
+        }
+        return;
+      }
+      if (requestId !== rankingRequestId || !rankingDialog.open) return;
+      rankingListEl.innerHTML = "";
+      if (!scores.length) {
+        renderRankingMessage("まだ記録がありません。");
+        return;
+      }
+      scores.forEach((entry, index) => {
+        const item = document.createElement("li");
+        const rank = document.createElement("span");
+        const name = document.createElement("span");
+        const scoreText = document.createElement("span");
+        const date = document.createElement("span");
+        rank.className = "ranking-rank";
+        name.className = "ranking-name";
+        scoreText.className = "ranking-score";
+        date.className = "ranking-date";
+        rank.textContent = `${index + 1}.`;
+        name.textContent = entry.name;
+        scoreText.textContent = entry.score.toLocaleString("ja-JP");
+        date.textContent = formatScoreDate(entry.date);
+        item.append(rank, name, scoreText, date);
+        rankingListEl.appendChild(item);
+      });
+    }
+
+    function showRanking() {
+      if (gameState === "playing" && !paused && !over) {
+        paused = true;
+        document.getElementById("pause").textContent = "Resume";
+      }
+      if (typeof rankingDialog.showModal === "function") {
+        rankingDialog.showModal();
+        setStatus("ハイスコア上位10件を表示中です。");
+      } else {
+        setStatus("このブラウザではランキングダイアログを表示できません。");
+        return;
+      }
+      renderRanking();
     }
 
     function rotatedCells(cells) {
@@ -873,124 +968,7 @@
       scoreEl.textContent = score;
       chainEl.textContent = chain;
       levelEl.textContent = level;
-      bestScoreEl.textContent = bestScore;
       drawNextPreview();
-    }
-
-    function handleGameOver() {
-      finalScore = score;
-      if (score > bestScore) {
-        bestScore = score;
-        storageSet(BEST_SCORE_KEY, String(bestScore));
-      }
-      updateHud();
-      updateScoreSubmitState();
-      setStatus("Game Over。名前を入れるとランキングに送信できます。");
-    }
-
-    function updateScoreSubmitState() {
-      const canSubmit = over && finalScore > 0 && !scoreSubmitted;
-      submitScoreButton.disabled = !canSubmit;
-      if (!over) {
-        scoreNoteEl.textContent = "Game Over後にスコアを送信できます。";
-      } else if (scoreSubmitted) {
-        scoreNoteEl.textContent = "送信済みです。ランキングを更新しました。";
-      } else {
-        scoreNoteEl.textContent = `今回のスコア ${finalScore} を送信できます。`;
-      }
-    }
-
-    function renderLeaderboard(rows) {
-      if (!rows.length) {
-        leaderboardEl.innerHTML = "<li>まだスコアがありません。</li>";
-        return;
-      }
-      leaderboardEl.innerHTML = rows.map((row, index) => {
-        const name = escapeHtml(row.player_name || "PLAYER");
-        const scoreText = Number(row.score || 0).toLocaleString();
-        return `<li><span>#${index + 1}</span><span class="name">${name}</span><span class="score">${scoreText}</span></li>`;
-      }).join("");
-    }
-
-    async function loadLeaderboard() {
-      const url = `${SUPABASE_URL}/rest/v1/${SCORE_TABLE}?select=player_name,score,level,created_at&order=score.desc,created_at.asc&limit=5`;
-      try {
-        const response = await fetch(url, {
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`
-          }
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        renderLeaderboard(await response.json());
-      } catch (error) {
-        leaderboardEl.innerHTML = "<li>ランキングを読み込めませんでした。</li>";
-      }
-    }
-
-    async function submitScore(event) {
-      event.preventDefault();
-      if (!over || finalScore <= 0 || scoreSubmitted) return;
-
-      const playerName = normalizePlayerName(playerNameInput.value);
-      playerNameInput.value = playerName;
-      storageSet(PLAYER_NAME_KEY, playerName);
-      submitScoreButton.disabled = true;
-      scoreNoteEl.textContent = "送信中...";
-
-      try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/${SCORE_TABLE}`, {
-          method: "POST",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal"
-          },
-          body: JSON.stringify({
-            player_name: playerName,
-            score: finalScore,
-            level
-          })
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        scoreSubmitted = true;
-        updateScoreSubmitState();
-        await loadLeaderboard();
-      } catch (error) {
-        scoreNoteEl.textContent = "送信に失敗しました。Supabase設定を確認してください。";
-        submitScoreButton.disabled = false;
-      }
-    }
-
-    function normalizePlayerName(value) {
-      return (value || "PLAYER").trim().slice(0, 24) || "PLAYER";
-    }
-
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[char]);
-    }
-
-    function storageGet(key) {
-      try {
-        return localStorage.getItem(key);
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function storageSet(key, value) {
-      try {
-        localStorage.setItem(key, value);
-      } catch (error) {
-        // Ranking and play should keep working even when browser storage is blocked.
-      }
     }
 
     function drawNextPreview() {
@@ -1034,7 +1012,10 @@
     }
 
     document.addEventListener("keydown", (event) => {
-      if (event.target.closest(".score-form")) return;
+      if (rankingDialog.open) {
+        if (event.code === "Space") event.preventDefault();
+        return;
+      }
       if (gameState === "title" && (event.key === "Enter" || event.code === "Space")) {
         event.preventDefault();
         startGame();
@@ -1068,6 +1049,13 @@
 
     document.getElementById("restart").addEventListener("click", startGame);
     document.getElementById("pause").addEventListener("click", togglePause);
+    document.getElementById("ranking").addEventListener("click", showRanking);
+    document.getElementById("ranking-close").addEventListener("click", () => {
+      rankingDialog.close();
+      setStatus(gameState === "title"
+        ? "SANDTRIS: ブロックは砂に崩れ、左右につながると消えます。"
+        : "ランキングを閉じました。");
+    });
     canvas.addEventListener("pointerdown", () => {
       if (gameState === "title") startGame();
     });
@@ -1086,11 +1074,8 @@
         updateHud();
       });
     });
-    scoreForm.addEventListener("submit", submitScore);
-    playerNameInput.value = storageGet(PLAYER_NAME_KEY) || "";
 
     showTitle();
-    loadLeaderboard();
     requestAnimationFrame((time) => {
       lastTime = time;
       requestAnimationFrame(frame);
